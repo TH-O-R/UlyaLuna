@@ -67,7 +67,10 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd(wallpaper)
 end)
 
-local colors = require(HOME .. "/.cache/wal/colors.lua")
+-- wal palette; fall back to a dark theme if pywal hasn't run yet
+local colors = { color0 = 0xff1a1b26, color3 = 0xffe0af68, color6 = 0xff7dcfff }
+local ok, loaded = pcall(require, HOME .. "/.cache/wal/colors.lua")
+if ok then colors = loaded end
 
 hl.config({
 	input = {
@@ -272,12 +275,11 @@ hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("pavucontrol"))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(alt_browser))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("logseq"))
-hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("obidian"))
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("obsidian"))
 hl.bind("ALT + N", hl.dsp.exec_cmd(wallpaper))
-hl.bind(
-	mainMod .. " + Escape",
-	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
-)
+hl.bind(mainMod .. " + Escape", function()
+	hl.dispatch(hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"))
+end)
 hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("wlogout"))
 hl.bind(mainMod .. " + Space", hl.dsp.window.float({ action = "toggle" }))
 
@@ -321,5 +323,5 @@ for i = 1, 10 do
 	local key = i % 10 -- 10 maps to key 0
 	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
 	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
-	hl.bind(mainMod .. " + CTRL + " .. key, hl.dsp.window.move({ workspace = i }, { follow = "true" }))
+	hl.bind(mainMod .. " + CTRL + " .. key, hl.dsp.window.move({ workspace = i }, { follow = true }))
 end
