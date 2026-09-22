@@ -1,3 +1,19 @@
+--             ___                       ___
+--            (   )                     (   )
+--  ___  ___   | |   ___  ___    .---.   | |   ___  ___   ___ .-.     .---.
+-- (   )(   )  | |  (   )(   )  / .-, \  | |  (   )(   ) (   )   \   / .-, \
+--  | |  | |   | |   | |  | |  (__) ; |  | |   | |  | |   |  .-. .  (__) ; |
+--  | |  | |   | |   | |  | |    .'`  |  | |   | |  | |   | |  | |    .'`  |
+--  | |  | |   | |   | '  | |   / .'| |  | |   | |  | |   | |  | |   / .'| |
+--  | |  | |   | |   '  `-' |  | /  | |  | |   | |  | |   | |  | |  | /  | |
+--  | |  ; '   | |    `.__. |  ; |  ; |  | |   | |  ; '   | |  | |  ; |  ; |
+--  ' `-'  /   | |    ___ | |  ' `-'  |  | |   ' `-'  /   | |  | |  ' `-'  |
+--   '.__.'   (___)  (   )' |  `.__.'_. (___)   '.__.'   (___)(___) `.__.'_.
+--                    ; `-' '
+--                     .__.'
+
+-- made by TH-O-R
+
 hl.monitor({
 	output = "eDP-1",
 	mode = "1920x1080@60",
@@ -51,7 +67,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd(wallpaper)
 end)
 
-local colors = dofile(HOME .. "/.cache/wal/colors.lua")
+local colors = require(HOME .. "/.cache/wal/colors.lua")
 
 hl.config({
 	input = {
@@ -126,7 +142,7 @@ hl.config({
 
 		motion_blur = {
 			enabled = true,
-			samples = 5,
+			samples = 7,
 		},
 
 		blur = {
@@ -241,6 +257,7 @@ hl.window_rule({
 })
 
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(fullmenu))
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("rofi -modi emoji -show emoji"))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
@@ -262,6 +279,7 @@ hl.bind(
 	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
 )
 hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("wlogout"))
+hl.bind(mainMod .. " + Space", hl.dsp.window.float({ action = "toggle" }))
 
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(volume .. " --inc"), { locked = true, repeating = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(volume .. " --dec"), { locked = true, repeating = true })
@@ -291,6 +309,8 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind(mainMod .. " + period", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + comma", hl.dsp.focus({ workspace = "e-1" }))
+hl.bind(mainMod .. " + tab", hl.dsp.focus({ workspace = "m+1" }))
+hl.bind(mainMod .. " + SHIFT + tab", hl.dsp.focus({ workspace = "m-1" }))
 hl.bind("Print", hl.dsp.exec_cmd(screenshot .. " --now"))
 hl.bind("SHIFT + Print", hl.dsp.exec_cmd(screenshot .. " --in10"))
 hl.bind("CTRL + Print", hl.dsp.exec_cmd(screenshot .. " --win"))
